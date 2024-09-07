@@ -1,0 +1,399 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2; /* Light gray background */
+}
+
+#header {
+    background-color: #f6f6f6; /* Blue background */
+    color: #fff; /* White text color */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    height: auto; /* Adjust height as needed */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure the header stays on top */
+}
+input[type="text"] {
+    background-color: #f4f4f4; /* Light gray background */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Padding inside the input field */
+    font-size: 16px; /* Font size */
+    color: #333; /* Text color */
+    width: 15%; /* Full width */
+    margin-bottom: 20px; /* Spacing between input fields */
+    box-shadow: 0 2px 5px rgba(116, 161, 200, 0.678); /* Subtle shadow */
+    margin-right: 20px;
+}
+
+/* Styling for the input labels */
+label {
+    font-size: 18px; /* Font size */
+    color: #555555; /* Text color */
+    margin-bottom: 5px; /* Spacing below the label */
+ /* Display labels as block elements */
+
+}
+#logo img {
+    width: 70px;
+    padding: 0px;
+    margin-top: 20px;
+}
+.custom-alert {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #0af487;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.custom-alert p {
+    margin: 0;
+    font-size: 18px;
+}
+#signout a {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(45deg, #479dff, #006eff); /* Gradient background */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 136, 255, 0.2); /* Shadow effect */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    margin-right: 20px;
+}
+
+#signout a:hover {
+    transform: translateY(-2px); /* Move button up on hover */
+    box-shadow: 0 6px 10px rgba(0, 72, 255, 0.3); /* Increase shadow size on hover */
+}
+
+#sidebar {
+    height: 780px;
+    width: 200px;
+    background-color: #f6f6f6; /* Light gray sidebar */
+    color: #333; /* Dark text color */
+    padding: 20px;
+}
+
+#logo {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+#logo img {
+    max-width: 100px;
+}
+
+#menu {
+    background-color: #f6f6f6; /* Light gray background */
+    border-bottom: 1px solid #f6f6f6; /* Bottom border */
+    padding: 10px 20px;
+}
+
+#menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+#menu ul li {
+    margin-right: 20px;
+}
+
+#menu ul li.active a {
+    background: linear-gradient(45deg, #47ffa3, #00ff80);  /* Blue color for selected menu */
+    font-weight: bold; /* Make text bold for selected menu */
+}
+
+#menu ul li a {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(45deg, #479dff, #006eff); /* Gradient background */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 136, 255, 0.2); /* Shadow effect */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    margin-right: 20px; /* Smooth color transition on hover */
+}
+
+#menu ul li a:hover {
+    transform: translateY(-10px); /* Move button up on hover */
+    box-shadow: 0 6px 10px rgba(0, 72, 255, 0.3); /* Increase shadow size on hover */
+}
+
+/* Additional CSS for adding "+" icon near menus */
+#menu li {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+#menu li::before {
+    position: absolute;
+    left: -20px; /* Adjust the position of the icon */
+    color: #333; /* Dark text color */
+    font-weight: bold;
+    visibility: hidden;
+}
+
+#menu li:hover::before {
+    visibility: visible;
+}
+
+/* Additional CSS for adding "+" icon near menus */
+
+
+#forms {
+    flex: 1;
+    padding: 20px;
+}
+
+.form {
+    display: none;
+}
+
+.active-form {
+    display: block;
+}
+
+select#year,#sem {
+    width: 20%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(45deg, #4CAF50, #2196F3); /* Gradient background */
+    color: #0b0404;
+    font-size: 16px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    transition: background 0.3s ease;
+    margin-top: 20px;
+    margin-right: 30px;
+}
+select#group {
+    width: 50%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(45deg, #4CAF50, #2196F3); /* Gradient background */
+    color: #0b0404;
+    font-size: 16px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    transition: background 0.3s ease;
+    margin-top: 20px;
+    margin-right: 30px;
+}
+/* Additional CSS for dropdown list */
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(45deg, #4CAF50, #2196F3); /* Gradient background */
+    color: #0b0404;
+    font-size: 16px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    transition: background 0.3s ease;
+    margin-top: 20px;
+}
+
+select:focus {
+    outline: none;
+    background: linear-gradient(45deg, #2196F3, #4CAF50); /* Gradient background when focused */
+}
+
+/* Additional CSS for submit buttons */
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #007aff; /* Yellow button background color */
+    color: #fcfbfb; /* Dark text color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 20px;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+input[type="submit"]:hover {
+    background-color: #00ff99; /* Darker yellow color on hover */
+}
+
+/* Additional CSS for selected dropdown option */
+select option:checked {
+    background-color: #4CAF50; /* Orange color for selected option */
+    color: #fff; /* White text color for selected option */
+}
+#pass {
+    background-color: #007aff; /* Blue color */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Box shadow */
+}
+#container {
+    margin-top: 80px; /* Adjust margin to make space for the fixed header */
+    padding: 20px;
+}
+/* Style for the span */
+#password {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px; /* Rounded corners */
+    background: linear-gradient(135deg, #f5f5f5, #e0e0e0); /* Gradient background */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Box shadow */
+    color: #333; /* Text color */
+}
+#welcomeMessage {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    font-family: Arial, sans-serif;
+}
+
+#welcomeMessage h2 {
+    color: #0697f7;
+}
+
+#welcomeMessage p {
+    color: #666;
+    margin-top: 20px;
+}
+#welcomeMessage.active-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#welcomeMessage.active-form h2 {
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#welcomeMessage.active-form p {
+    color: #666;
+    font-size: 18px;
+}
+#welcomeMessage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.form {
+    display: none;
+}
+
+.form.active-form {
+    display: block;
+}
+#timetable {
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#timetable th, #timetable td {
+    padding: 16px;
+    text-align: center;
+    font-weight: bold;
+    border: 0.1px solid rgba(0, 0, 0, 0.485);
+}
+
+#timetable th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+#timetable td.available {
+    background-color: #0cf480; /* Green background for available cells */
+    color: #fff; /* Text color for available cells */
+    cursor: pointer;
+}
+
+#timetable td.not-available {
+    background-color: #ff6666 !important; /* Red background for not available cells */
+    color: #fff; /* Text color for not available cells */
+    cursor: pointer;
+}
+
+
+#timetable td:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+}
+
+/* Highlight effect on click */
+#timetable td.available:active,
+#timetable td.not-available:active {
+    background-color: #ff9999; /* Light red on click */
+}
+
+/* Add transition for smooth hover effect */
+#timetable td {
+    transition: background-color 0.3s ease;
+}
+input[type="password"] {
+    background-color: #f4f4f4; /* Light gray background */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Padding inside the input field */
+    font-size: 16px; /* Font size */
+    color: #333; /* Text color */
+    width: 15%; /* Full width */
+    margin-bottom: 20px; /* Spacing between input fields */
+    box-shadow: 0 2px 5px rgba(116, 161, 200, 0.678); /* Subtle shadow */
+    margin-right: 20px;
+    text-align: center;
+}
+input[type="button"] {
+    padding: 10px 20px;
+    background-color: #007aff; /* Yellow button background color */
+    color: #fcfbfb; /* Dark text color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 20px;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+input[type="button"]:hover {
+    background-color: #00ff99; /* Darker yellow color on hover */
+}

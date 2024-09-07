@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+    <div class="container">
+        <canvas class='connecting-dots'></canvas>
+        <div class="card">
+          <div class="logo">
+            <img src="assets/img/psglogo.png" alt="Logo">
+          </div>
+          <div class="content">
+            <h2>Welcome</h2>
+            <div class="toggle-buttons">
+              <input type="radio" id="adminRadio" name="userType" value="admin" onclick="toggleForm('admin')" checked>
+              <label for="adminRadio">Admin</label>
+              <input type="radio" id="facultyRadio" name="userType" value="faculty" onclick="toggleForm('faculty')">
+              <label for="facultyRadio">Faculty</label>
+            </div>
+            <form id="adminForm" class="show" onsubmit="login(event, 'admin')">
+              <label for="adminUsername">Username:</label>
+              <input type="text" id="adminUsername" name="adminUsername" required>
+              <label for="adminPassword">Password:</label>
+              <input type="password" id="adminPassword" name="adminPassword" required>
+              <button type="submit" id="adminSubmit">Login as Admin</button>
+            </form>
+            <form id="facultyForm" onsubmit="login(event, 'faculty')">
+              <label for="facultyUsername">Username:</label>
+              <input type="text" id="facultyUsername" name="facultyUsername" required>
+              <label for="facultyPassword">Password:</label>
+              <input type="password" id="facultyPassword" name="facultyPassword" required>
+              <button type="submit" id="facultySubmit">Login as Faculty</button>
+            </form>
+          </div>
+        </div>
+    </div>
+    <script src="assets/js/main.js"></script>
+    <script>
+      function toggleForm(formType) {
+        var adminForm = document.getElementById('adminForm');
+        var facultyForm = document.getElementById('facultyForm');
+        
+        if (formType === 'admin') {
+          adminForm.classList.add('show');
+          facultyForm.classList.remove('show');
+        } else {
+          adminForm.classList.remove('show');
+          facultyForm.classList.add('show');
+        }
+      }
+
+      async function login(event, userType) {
+        event.preventDefault();
+        
+        const usernameField = document.getElementById(userType === 'admin' ? 'adminUsername' : 'facultyUsername');
+        const passwordField = document.getElementById(userType === 'admin' ? 'adminPassword' : 'facultyPassword');
+        
+        const username = usernameField.value;
+        const password = passwordField.value;
+
+        try {
+          const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              userType: userType,
+              username: username,
+              password: password
+            })
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            if (userType === 'admin') {
+              window.location.href = 'admin.html';
+            } else {
+              window.location.href = 'faculty.html?username=' + username; // Pass username as query parameter
+            }
+          } else {
+            alert(data.message); // Display error message
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      }
+    </script>
+</body>
+</html>

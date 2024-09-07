@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu with Toggle Forms</title>
+<link rel="stylesheet" href="assets/css/admin.css">
+<script src="assets/js/admin.js"></script>
+</head>
+<body>
+    <header id="header">
+        <div id="logo">
+            <img src="assets/img/psglogo.png" alt="Logo">
+        </div>
+        <div id="menu">
+            <ul>
+                <li><a href="#addDepartment" onclick="showForm('addDepartment')">Add Department</a></li>
+                <li><a href="#addCourse" onclick="showForm('addCourse')">Add Course</a></li>
+                <li><a href="#addFaculty" onclick="showForm('addFaculty')">Add Faculty</a></li>
+                <li><a href="index.html">Sign Out</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div id="container">
+        <div id="welcomeMessage" class="active-form">
+            <h2>Welcome Admin!</h2>
+            <p>This is the admin page. You can toggle between different forms using the menu above.</p>
+        </div>
+    <div id="forms">
+        <form id="addDepartmentForm" class="form" onsubmit="insertDept(event)">
+            <!-- Add Department Form Content -->
+            <h2>Add Department Form</h2>
+            <label for="programme">Programme:</label>
+            <select id="programme" name="programme">
+                <option value="B.E">B.E</option>
+                <option value="B.TECH">B.TECH</option>
+                <option value="M.E">M.E</option>
+                <option value="M.TECH">M.TECH</option>
+                <option value="M.SC">M.SC</option>
+                <option value="B.SC">B.SC</option>
+                <option value="MBA">MBA</option>
+            </select><br><br>
+        
+            <!-- Dropdown list for Stream of Branch with search option -->
+            <label for="stream">Stream:</label>
+            <select id="stream" name="stream">
+                <!-- Options for streams will be added dynamically -->
+            </select><br><br>
+        
+            <input type="hidden" id="action" name="action" value="/insertdept">
+
+            <!-- Remove option -->
+            <input type="submit" id="insertDepartment" value="Insert Department" onclick="setInsertAction()">
+            <input type="submit" id="removeDepartment" value="Remove Department" onclick="setRemoveAction()">
+        </form>
+        <form id="addCourseForm" class="form" onsubmit="insertC(event)">
+            <!-- Add Course Form Content -->
+            <h2>Add Course Form</h2>
+        
+            <!-- Dropdown list for Programme -->
+            <label for="cprogramme">Programme:</label>
+            <select id="cprogramme" name="cprogramme">
+                <option value="B.E">B.E</option>
+                <option value="B.TECH">B.TECH</option>
+                <option value="M.E">M.E</option>
+                <option value="M.TECH">M.TECH</option>
+                <option value="M.SC">M.SC</option>
+                <option value="B.SC">B.SC</option>
+                <option value="MBA">MBA</option>
+            </select><br><br>
+        
+            <!-- Dropdown list for Stream of Branch with search option -->
+            <label for="cstream">Stream:</label>
+            <select id="cstream" name="cstream">
+                <!-- Options for streams will be added dynamically -->
+            </select><br><br>
+        
+            <!-- Dropdown list for Year -->
+            <label for="year">Year:</label>
+            <select id="year" name="year">
+                <option value="1">I</option>
+                <option value="2">II</option>
+                <option value="3">III</option>
+                <option value="4">IV</option>
+                <option value="5">V</option>
+            </select>
+        
+            <!-- Semester -->
+            <label for="sem">Semester:</label>
+            <select id="sem" name="sem">
+                <option value="1">I</option>
+                <option value="2">II</option>
+                <option value="3">III</option>
+                <option value="4">IV</option>
+                <option value="5">V</option>
+                <option value="6">VI</option>
+                <option value="7">VII</option>
+                <option value="8">VIII</option>
+                <option value="9">IX</option>
+                <option value="10">XI</option>
+            </select><br><br>
+            <!-- Course Name -->
+            <label for="courseName">Course Name:</label>
+            <input type="text" id="courseName" name="courseName">
+        
+            <!-- Course ID -->
+            <label for="courseID">Course ID:</label>
+            <input type="text" id="courseID" name="courseID">
+        
+            <!-- Credits -->
+            <label for="credits">Credits:</label>
+            <input type="text" id="credits" name="credits"><br><br>
+
+            <label for="type">Type:</label>
+            <select id="type" name="type">
+                <option value="theory">Theory</option>
+                <option value="practical">Practical</option>
+            </select><br><br>
+
+            <input type="hidden" id="caction" name="caction" value="/insertcourse">
+
+            <input type="submit" id="insertCourse" value="Insert Course" onclick="setInsertCourse()">
+            <input type="submit" id="removeCourse" value="Remove Course" onclick="setRemoveCourse()">
+        </form>
+        <!-- HTML for Add Faculty Form -->
+<form id="addFacultyForm" class="form" onsubmit="addFac(event)">
+    <h2>Add Faculty Form</h2>
+    <!-- Dropdown list for Programme -->
+    <label for="fprogramme">Programme:</label>
+    <select id="fprogramme" name="fprogramme" onchange="fetchStreams()">
+        <option value="B.E">B.E</option>
+        <option value="B.TECH">B.TECH</option>
+        <option value="M.E">M.E</option>
+        <option value="M.TECH">M.TECH</option>
+        <option value="M.SC">M.SC</option>
+        <option value="B.SC">B.SC</option>
+        <option value="MBA">MBA</option>
+    </select><br><br>
+
+    <!-- Dropdown list for Stream -->
+    <label for="fstream">Stream:</label>
+    <select id="fstream" name="fstream" onchange="feCourses()">
+        <!-- Options for streams will be added dynamically -->
+    </select><br><br>
+
+    <!-- Dropdown list for Available Courses -->
+    <label for="course">Available Courses:</label>
+    <select id="course" name="course">
+        <!-- Options for courses will be added dynamically -->
+    </select><br><br>
+    <label for="group">Group:</label>
+    <select id="group" name="group">
+        <option value="G1">G1</option>
+        <option value="G2">G2</option>
+    </select><br><br>
+    <!-- Faculty Name -->
+    <label for="facultyName">Faculty Name:</label>
+    <input type="text" id="facultyName" name="facultyName" required>
+    <label for="facultyName">(User Name for Faculty Login)</label><br><br>
+    <!-- Password (Generated) -->
+    <input type="button" id="pass" value="Generate" onclick="generateCredentials()">
+    <span id="password"> <--click Here to Generate Password <!-- Password will be generated dynamically --></span><br><br>
+
+    <input type="hidden" id="faction" name="faction" value="/insertfaculty">
+
+    <input type="submit" value="Insert Faculty" onclick="setInsertFac()">
+    <input type="submit" value="Remove Faculty" onclick="setRemoveFac()">
+</form>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    // Function to populate Programme dropdown
+    function populateProgramme() {
+        console.log("Fetching programmes...");
+        $.get("/getProgrammes", function(data) {
+            console.log("Received programmes:", data);
+            // Clear existing options
+            $('#cprogramme').empty();
+            $('#fprogramme').empty(); // Clear faculty programme dropdown as well
+            // Populate options from data
+            data.forEach(function(programme) {
+                $('#cprogramme').append($('<option>', {
+                    value: programme,
+                    text: programme
+                }));
+                $('#fprogramme').append($('<option>', { // Populate faculty programme dropdown
+                    value: programme,
+                    text: programme
+                }));
+            });
+            // Trigger change event for programme dropdown to populate streams
+            $('#cprogramme').change();
+            $('#fprogramme').change(); // Trigger change event for faculty programme dropdown as well
+        });
+    }
+
+    // Function to populate Stream dropdown based on selected Programme
+    function populateStream(programme) {
+        console.log("Fetching streams for programme:", programme);
+        $.get("/getStreams", { programme: programme }, function(data) {
+            console.log("Received streams:", data);
+            // Clear existing options
+            $('#cstream').empty();
+            $('#fstream').empty(); // Clear faculty stream dropdown as well
+            // Populate options from data
+            data.forEach(function(stream) {
+                $('#cstream').append($('<option>', {
+                    value: stream,
+                    text: stream
+                }));
+                $('#fstream').append($('<option>', { // Populate faculty stream dropdown
+                    value: stream,
+                    text: stream
+                }));
+            });
+            // Trigger change event for stream dropdown to populate courses
+            $('#cstream').change();
+            $('#fstream').change(); // Trigger change event for faculty stream dropdown as well
+        });
+    }
+
+    // Function to populate courses for the selected Programme and Stream
+    function populateCourses(programme, stream) {
+        console.log("Fetching courses for programme:", programme, "and stream:", stream);
+        $.get("/getCourses", { programme: programme, stream: stream }, function(data) {
+            console.log("Received courses:", data);
+            // Clear existing options
+            $('#course').empty();
+            // Populate options from data
+            if (data.length === 0) {
+            $('#course').append($('<option>', {
+                value: '',
+                text: 'No courses available'
+            }));
+        } else {
+            // Populate options from data
+            data.forEach(function(course) {
+                $('#course').append($('<option>', {
+                    value: course,
+                    text: course
+                }));
+            });
+        }
+        });
+    }
+
+  // Function to fetch courses for the selected programme and stream for faculty
+
+    document.getElementById('fprogramme').addEventListener('change', fetchStreams);
+
+// Event listener for stream change
+document.getElementById('fstream').addEventListener('change', feCourses);
+
+// Event listener for faculty name change
+
+// Initial fetch for streams
+fetchStreams();
+    // Call the populateProgrammes function when the "Add Course" menu item is clicked
+    $('#addCourseMenu').click(function() {
+        populateProgramme();
+    });
+
+    // Call the populateStreams function when Programme selection changes
+    $('#cprogramme').change(function() {
+        var selectedProgramme = $(this).val();
+        populateStream(selectedProgramme);
+    });
+
+    // Call the populateCourses function when Stream selection changes
+    $('#cstream').change(function() {
+        var selectedProgramme = $('#cprogramme').val();
+        var selectedStream = $(this).val();
+        populateCourses(selectedProgramme, selectedStream);
+    });
+
+    // Populate streams and courses for the first programme on page load
+    populateProgramme();
+});
+
+function showForm(formId) {
+    var forms = document.querySelectorAll('.form');
+    forms.forEach(function(form) {
+        form.classList.remove('active-form');
+    });
+    document.getElementById(formId + 'Form').classList.add('active-form');
+
+    // Hide the welcome message only if the form displayed is not the welcome message
+    if (formId !== 'welcomeMessage') {
+        document.getElementById('welcomeMessage').style.display = 'none';
+    } else {
+        document.getElementById('welcomeMessage').style.display = 'flex';
+    }
+
+    // Call corresponding function to populate dropdowns when form is shown
+    if (formId === 'addFaculty') {
+        fetchStreams();
+        feCourses();
+    }
+    activateMenuItem(formId);
+}
+
+
+function activateMenuItem(formId) {
+    // Remove active class from all menu items
+    $('#menu ul li').removeClass('active');
+    // Add active class to the selected menu item
+    $('#menu ul li a[href="#' + formId + '"]').parent().addClass('active');
+}
+
+function setRemoveFac() {
+    // Set the action value to call remove course endpoint
+    document.getElementById('faction').value = '/removefaculty';
+}
+
+function setInsertFac() {
+    // Set the action value to call insert course endpoint
+    document.getElementById('faction').value = '/insertfaculty';
+}
+
+function setRemoveCourse() {
+    // Set the action value to call remove course endpoint
+    document.getElementById('caction').value = '/removecourse';
+}
+
+function setInsertCourse() {
+    // Set the action value to call insert course endpoint
+    document.getElementById('caction').value = '/insertcourse';
+}
+
+function setRemoveAction() {
+    // Set the action value to call remove department endpoint
+    document.getElementById('action').value = '/removedept';
+}
+
+function setInsertAction() {
+    // Set the action value to call insert department endpoint
+    document.getElementById('action').value = '/insertdept';
+}
+
+async function insertDept(event) {
+    event.preventDefault();
+        
+    const form = document.getElementById('addDepartmentForm');
+    const formData = new FormData(form);
+    const programme = formData.get('programme');
+    const stream = formData.get('stream');
+    const action = formData.get('action');
+    
+    try {
+        const response = await fetch(action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ programme, stream })
+        });
+
+        const result = await response.text();
+        showAlert(result); 
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function insertC(event) {
+    event.preventDefault();
+    
+    console.log("Insert Course function called");
+    
+    const form = document.getElementById('addCourseForm');
+    const formData = new FormData(form);
+    const programme = formData.get('cprogramme');
+    const stream = formData.get('cstream');
+    const year = formData.get('year');
+    const semester = formData.get('sem');
+    const courseName = formData.get('courseName');
+    const courseID = formData.get('courseID');
+    const credits = formData.get('credits');
+    const type = formData.get('type');
+    const caction = formData.get('caction');// Get value directly from hidden input field
+    
+    try {
+        const response = await fetch(caction, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ programme, stream, year, semester, courseName, courseID, credits, type })
+        });
+
+        const result = await response.text();
+        showAlert(result); 
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+function showAlert(message) {
+    var alertBox = document.createElement('div');
+    alertBox.classList.add('custom-alert');
+    alertBox.innerHTML = '<p>' + message + '</p>';
+    document.body.appendChild(alertBox);
+    setTimeout(function() {
+        alertBox.remove(); // Remove the alert after a certain period
+    }, 3000); // Adjust the time (in milliseconds) as needed
+}
+
+function fetchStreams() {
+    const programme = document.getElementById('fprogramme').value;
+    fetch(`/getStreams?programme=${programme}`)
+        .then(response => response.json())
+        .then(streams => {
+            const streamDropdown = document.getElementById('fstream');
+            streamDropdown.innerHTML = '';
+            streams.forEach(stream => {
+                const option = document.createElement('option');
+                option.value = stream;
+                option.textContent = stream;
+                streamDropdown.appendChild(option);
+            });
+            feCourses(); // Fetch courses for the selected stream
+        });
+}
+function feCourses() {
+    const programme = $('#fprogramme').val();
+    const stream = $('#fstream').val();
+
+    console.log("Fetching courses for programme:", programme, "and stream:", stream);
+    $.get("/getCourses", { programme: programme, stream: stream }, function(data) {
+        console.log("Received courses:", data);
+        // Clear existing options
+        $('#course').empty();
+        // Populate options from data
+        if (data.length === 0) {
+            // If no courses are available, display null or empty option
+            $('#course').append($('<option>', {
+                value: '',
+                text: '' // You can set this to 'No Courses Available' or any other appropriate message
+            }));
+        } else {
+            data.forEach(function(course) {
+                $('#course').append($('<option>', {
+                    value: course,
+                    text: course
+                }));
+            });
+        }
+    });
+}
+
+// Function to generate username and password based on selected course and faculty name
+function generateCredentials() {
+    const programme = $('#fprogramme').val();
+    const stream = $('#fstream').val();
+    const facultyName = document.getElementById('facultyName').value;
+    const selectedCourseName = document.getElementById('course').value;
+    if (!facultyName) {
+        showAlert("Please enter the Faculty Name first.");
+        return;
+    }
+    // Make a GET request to fetch the course ID
+    $.get("/getCourseID", { courseName: selectedCourseName,programme:programme,stream:stream}, function(courseID) {
+        // Generate password based on faculty name and course ID
+        const username = facultyName.substring(0, 3).toLowerCase();
+        const password = facultyName.substring(0, 3).toLowerCase() + courseID.substring(0, 3).toLowerCase();
+        
+        // Display generated password
+        document.getElementById('password').textContent = password;
+    }).fail(function() {
+        // Handle failure to fetch course ID
+        console.error('Failed to fetch course ID');
+        // Display error message or handle appropriately
+    });
+}
+
+
+
+async function addFac(event) {
+    event.preventDefault();
+        
+    const form = document.getElementById('addFacultyForm');
+    const formData = new FormData(form);
+    const programme = formData.get('fprogramme');
+    const stream = formData.get('fstream');
+    const course = formData.get('course');
+    const facultyName = formData.get('facultyName');
+    const action = formData.get('faction');
+    const group = formData.get('group');
+    const password = document.getElementById('password').textContent;
+    if (!facultyName) {
+        showAlert("Please enter the Faculty Name first.");
+        return;
+    }
+    try {
+        const response = await fetch(action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ programme, stream ,course,facultyName, group, password})
+        });
+
+        const result = await response.text();
+        showAlert(result); 
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+  }
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Ensure canvas is behind the card */
+  }
+  .card {
+    width: 600px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    overflow: hidden;
+  }
+  
+  .card .logo {
+    flex: 1;
+    padding: 20px;
+    background-color: #eaedf0;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the logo horizontally */
+  }
+  
+  .card .logo img {
+    width: 80px; /* Increase the size of the logo */
+    height: auto;
+  }
+  
+  .card .content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card .content h2 {
+    margin-top: 0;
+  }
+  
+  .card .content form {
+    display: none;
+    margin-top: 20px;
+  }
+  
+  .card .content form.show {
+    display: block;
+  }
+  
+  .card .content form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .card .content form input[type="text"],
+  .card .content form input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .card .content form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Add transition effect */
+  }
+  
+  .card .content form button:hover {
+    background-color: #0056b3; /* Darken the background color on hover */
+  }
+  .toggle-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  
+  .toggle-buttons label {
+    display: inline-block;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .toggle-buttons label:hover {
+    background-color: #ddd;
+  }
+  
+  .toggle-buttons input[type="radio"] {
+    display: none;
+  }
+  
+  .toggle-buttons input[type="radio"]:checked + label {
+    background-color: #007bff;
+    color: #fff;
+  }

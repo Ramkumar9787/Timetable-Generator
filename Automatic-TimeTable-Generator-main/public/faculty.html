@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Table</title>
+<link rel="stylesheet" href="assets/css/faculty.css">
+<script src="assets/js/faculty.js"></script>
+</head>
+<body>
+<header id="header">
+    <div id="logo">
+        <img src="assets/img/psglogo.png" alt="Logo">
+    </div>
+    <div id="menu">
+        <ul>
+            <li><a href="#viewTimetable" onclick="showForm('viewTimetable')">View Timetable</a></li>
+            <li><a href="#generateTimetable" onclick="showForm('generateTimetable')">Generate Timetable</a></li>
+            <li><a href="#changePassword" onclick="showForm('changePassword')">Change Default Password</a></li>
+            <li><a href="index.html">Sign Out</a></li>
+        </ul>
+    </div>
+</header>
+
+<div id="container">
+    <div id="welcomeMessage" class="active-form">
+        <h2>Welcome, <span id="facultyUsername"></span></h2>
+        <p>This is the Faculty page. You can toggle between different forms using the menu above.</p>
+    </div>
+    <div id="forms">
+        <form id="viewTimetableForm" class="form">
+            <h2>View Timetable</h2>
+            <input type="hidden" id="fusername" value="">
+            <div>
+                <label for="username">Username (Faculty Name):</label>
+                <span id="username" name="username"></span>
+            </div>
+            <div>
+                <label for="courseNamesDropdown">Select Course:</label>
+                <select id="courseNamesDropdown" name="courseNamesDropdown">
+                    <!-- Options will be dynamically added here -->
+                </select>
+            </div>
+            <table id="timetable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>8:00 - 9:20 AM</th>
+                        <th>9:20 - 10:10 AM</th>
+                        <th>10:30 - 11:20 AM</th>
+                        <th>11:20 - 12:10 PM</th>
+                        <th>1:40 - 2:30 PM</th>
+                        <th>2:30 - 3:20 PM</th>
+                        <th>3:30 - 4:20 PM</th>
+                        <th>4:20 - 5:10 PM</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Time slots will be dynamically added here using JavaScript -->
+                </tbody>
+            </table>
+            <div>
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+        <form id="generateTimetableForm" class="form">
+            <h2>Generate Timetable</h2>
+            <table id="timetable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>8:00 - 9:20 AM</th>
+                        <th>9:20 - 10:10 AM</th>
+                        <th>10:30 - 11:20 AM</th>
+                        <th>11:20 - 12:10 PM</th>
+                        <th>1:40 - 2:30 PM</th>
+                        <th>2:30 - 3:20 PM</th>
+                        <th>3:30 - 4:20 PM</th>
+                        <th>4:20 - 5:10 PM</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Time slots for the generated timetable will be dynamically added here -->
+                </tbody>
+            </table>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <div>
+                <input type="button" value="Generate">
+            </div>
+        </form>
+        <form id="changePasswordForm" class="form">
+            <h2>Change Default Password</h2>
+            <div>
+                <label for="currentPassword">Current Password:</label>
+                <input type="password" id="currentPassword" name="currentPassword">
+            </div>
+            <div>
+                <label for="newPassword">New Password:</label>
+                <input type="password" id="newPassword" name="newPassword">
+            </div>
+            <div>
+                <label for="retypePassword">Retype Password:</label>
+                <input type="password" id="retypePassword" name="retypePassword">
+            </div>
+            <div>
+                <input type="submit" value="Confirm">
+            </div>
+        </form>
+        
+        <!-- HTML for Add Faculty Form -->
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+// JavaScript for timetable functionality
+function getQueryVariable(variable) {
+    const query = window.location.search.substring(1);
+    const vars = query.split("&");
+    for (let i = 0; i < vars.length; i++) {
+        const pair = vars[i].split("=");
+        if (pair[0] === variable) {
+            return decodeURIComponent(pair[1]);
+        }
+    }
+    return null;
+}
+
+// Function to set faculty username on the page
+function setFacultyUsername() {
+    const facultyUsername = getQueryVariable('username');
+    if (facultyUsername) {
+        document.getElementById('facultyUsername').textContent = facultyUsername;
+        document.getElementById('fusername').value = facultyUsername;
+    } else {
+        document.getElementById('facultyUsername').textContent = 'Guest';
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]; // Add more days if needed
+    const hours = ["8:00 - 9:20", "9:20 - 10:10", "10:30 - 11:20", "11:20 - 12:10", "1:40 - 2:30", "2:30 - 3:20", "3:30 - 4:20", "4:20 - 5:10"]; // Define available hours
+
+    const timetable = document.getElementById("timetable");
+    const tbody = timetable.querySelector("tbody");
+
+    // Initialize arrays to store available and not available hours
+    let availableHours = [];
+    let notAvailableHours = [];
+
+    // Generate timetable rows and cells
+    days.forEach(day => {
+        const row = document.createElement("tr");
+        const headerCell = document.createElement("th");
+        headerCell.textContent = day;
+        row.appendChild(headerCell);
+
+        hours.forEach(hour => {
+            const cell = document.createElement("td");
+            cell.dataset.day = day;
+            cell.dataset.hour = hour;
+            cell.classList.add("available"); // Initially, all cells are available
+            cell.addEventListener("click", toggleAvailability);
+            row.appendChild(cell);
+        });
+
+        tbody.appendChild(row);
+    });
+
+    // Function to handle toggling availability of slots
+// Function to handle toggling availability of slots
+// Function to handle toggling availability of slots
+function toggleAvailability(event) {
+    const cell = event.target;
+    const day = cell.dataset.day;
+    const hour = cell.dataset.hour;
+
+    if (cell.classList.contains("not-available")) {
+        cell.classList.remove("not-available");
+        removeFromNotAvailable(day, hour);
+        addToAvailable(day, hour);
+        cell.style.backgroundColor = "#0cf480"; // Green background for available slots
+    } else {
+        cell.classList.add("not-available");
+        removeFromAvailable(day, hour);
+        addToNotAvailable(day, hour);
+        cell.style.backgroundColor = "#ff6666"; // Red background for not available slots
+    }
+
+    // Send updated data to the server
+    sendDataToAppJS();
+}
+
+
+
+    // Function to add hour to available hours array
+    function addToAvailable(day, hour) {
+        availableHours.push({ day, hour });
+    }
+
+    // Function to remove hour from available hours array
+    function removeFromAvailable(day, hour) {
+        availableHours = availableHours.filter(item => item.day !== day || item.hour !== hour);
+    }
+
+    // Function to add hour to not available hours array
+    function addToNotAvailable(day, hour) {
+        notAvailableHours.push({ day, hour });
+    }
+
+    // Function to remove hour from not available hours array
+    function removeFromNotAvailable(day, hour) {
+        notAvailableHours = notAvailableHours.filter(item => item.day !== day || item.hour !== hour);
+    }
+
+    // Function to send data to app.js
+    function sendDataToAppJS() {
+        const username = document.getElementById('username').textContent;
+        const courseName = document.getElementById('courseNamesDropdown').value;
+
+        fetch('/updateTimetable', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                courseName: courseName,
+                facultyName: username,
+                timetable: {
+                    Monday: {
+                        available: availableHours.filter(item => item.day === "Monday").map(item => item.hour),
+                        notAvailable: notAvailableHours.filter(item => item.day === "Monday").map(item => item.hour)
+                    },
+                    Tuesday: {
+                        available: availableHours.filter(item => item.day === "Tuesday").map(item => item.hour),
+                        notAvailable: notAvailableHours.filter(item => item.day === "Tuesday").map(item => item.hour)
+                    },
+                    Wednesday: {
+                        available: availableHours.filter(item => item.day === "Wednesday").map(item => item.hour),
+                        notAvailable: notAvailableHours.filter(item => item.day === "Wednesday").map(item => item.hour)
+                    },
+                    Thursday: {
+                        available: availableHours.filter(item => item.day === "Thursday").map(item => item.hour),
+                        notAvailable: notAvailableHours.filter(item => item.day === "Thursday").map(item => item.hour)
+                    },
+                    Friday: {
+                        available: availableHours.filter(item => item.day === "Friday").map(item => item.hour),
+                        notAvailable: notAvailableHours.filter(item => item.day === "Friday").map(item => item.hour)
+                    },
+                }
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Data sent to app.js:', data);
+        })
+        .catch(error => {
+            console.error('Error sending data to app.js:', error);
+        });
+    }
+
+
+    // Call the fetchDefaultAvailability function when the page loads
+    
+});
+
+function fetchCoursesByFaculty() {
+    const facultyName = document.getElementById('fusername').value;
+    fetch('/getCoursesByFaculty?username=' + facultyName)
+        .then(response => response.json())
+        .then(data => {
+            const courseNamesDropdown = document.getElementById('courseNamesDropdown');
+            courseNamesDropdown.innerHTML = '';
+            document.getElementById('username').textContent = facultyName;
+            data.courseNames.forEach(courseName => {
+                const option = document.createElement('option');
+                option.textContent = courseName;
+                courseNamesDropdown.appendChild(option);
+            });
+            fetchDefaultAvailability();
+        })
+        .catch(error => console.error('Error fetching courses:', error));
+}
+    // Function to fetch default availability status from MongoDB
+    function fetchDefaultAvailability() {
+        const facultyName = document.getElementById('facultyUsername').textContent;
+        const courseName = document.getElementById('courseNamesDropdown').value;
+
+        fetch(`/getDefaultAvailability?facultyName=${facultyName}&courseName=${courseName}`)
+            .then(response => response.json())
+            .then(data => {
+                // Iterate through the data and update UI accordingly
+                Object.keys(data.timetable).forEach(day => {
+                    const slots = data.timetable[day];
+                    slots.notAvailable.forEach(slot => {
+                        const cell = document.querySelector(`td[data-day="${day}"][data-hour="${slot}"]`);
+                        if (cell) {
+                            cell.classList.add("not-available");
+                            cell.style.backgroundColor = "#ff6666"; // Red background for not available slots
+                        }
+                    });
+                });
+            })
+            .catch(error => console.error('Error fetching default availability:', error));
+    }
+window.onload = function() {
+    setFacultyUsername();
+    fetchCoursesByFaculty();
+};
+</script>
+</body>
+</html>
